@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadlesstrodden's Medium Blog Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(165deg, #667eea 10%, #542e7a 80%, darkblue 50%);
+            min-height: 100vh;
+            color: #494747;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 80px 0 60px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin-bottom: 60px;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .header .cta {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .header .cta:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-container {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box:focus {
+            outline: none;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .filter-tags {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .filter-tag:hover, .filter-tag.active {
+            background: rgba(255, 255, 255, 0.9);
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .blog-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .blog-card p {
+            color: #403d3d;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .blog-date {
+            background: rgba(105, 128, 231, 0.1);
+            color: #3e59cf;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: 500;
+        }
+
+        .blog-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .blog-tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+
+        .read-more:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .read-more::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .read-more:hover::after {
+            transform: translateX(3px);
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 30px 30px 0 0;
+            margin-top: 60px;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .social-link {
+            color: white;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 12px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .social-link:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .filter-tags {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Little-Star (Minda)'s Medium Blog Portfolio</h1>
+            <p>Exploring ideas, sharing insights, and connecting with the community through thoughtful writing</p>
+            <a href="https://medium.com/@roadlesstrodden-Little-Star" class="cta" id="mediumProfile">Visit My Medium Profile</a>
+        </header>
+
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search articles..." id="searchInput">
+        </div>
+
+        <div class="filter-tags">
+            <div class="filter-tag active" data-tag="all">All Articles</div>
+            <div class="filter-tag" data-tag="threat-intelligence">Threat Intelligence</div>
+            <div class="filter-tag" data-tag="critical-infrastructure">Critical Infrastructure</div>
+            <div class="filter-tag" data-tag="cryptography">Cryptography</div>
+            <div class="filter-tag" data-tag="ai-attack">AI Attack</div>
+            <div class="filter-tag" data-tag="other">Other Write-ups</div>
+        </div>
+
+        <div class="blog-grid" id="blogGrid">
+            <!-- Blog cards will be inserted here -->
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <p>No articles found matching your search criteria.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Connect with me and stay updated on my latest articles</p>
+            <div class="social-links">
+                <a href="https://discord.gg/EGcjn23XFt" class="social-link" id="discordLink">Discord</a>
+                <a href="https://github.com/roadlesstrodden007-minda" class="social-link" id="githubLink">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Your actual Medium articles
+        const blogData = [
+            {
+                title: "FileFix Attack Leverages Steganography to Deploy StealC Malware",
+                excerpt: "The attack impersonates Facebook security warnings to trick users into executing malicious PowerShell commands through Windows File Explorer, ultimately deploying the StealC information stealer.",
+                date: "2025-09-16",
+                tags: ["cryptography", "threat-intelligence"],
+                readTime: "4 min read",
+                url: "https://medium.com/roadlesstrodden/filefix-attack-leverages-steganography-to-deploy-stealc-malware-f61195726961"
+            },
+            {
+                title: "The Perfect Storm: AI Cyberattacks Surge as Automated Threats Overwhelm Defenses",
+                excerpt: "Threat actors are leveraging AI to create synthetic identities, fabricate convincing content, and scale social engineering campaigns that bypass traditional defenses with alarming effectiveness.",
+                date: "2025-09-01",
+                tags: ["threat-intelligence", "ai-attack"],
+                readTime: "2 min read",
+                url: "https://medium.com/@roadlesstrodden-Little-Star/the-perfect-storm-ai-cyberattacks-surge-as-automated-threats-overwhelm-defenses-482cbd8393a5"
+            },
+            {
+                title: "Cyber criminals Weaponize AI to Launch Sophisticated Salesforce Breaches",
+                excerpt: "A sophisticated multi-month campaign has compromised hundreds of Salesforce customer environments through stolen OAuth tokens and third-party application abuse.",
+                date: "2025-09-01",
+                tags: ["threat-intelligence", "ai-attack"],
+                readTime: "2 min read",
+                url: "https://medium.com/@roadlesstrodden-Little-Star/cyber-criminals-weaponize-ai-to-launch-sophisticated-salesforce-breaches-0f7f88e79cb1"
+            },
+            {
+                title: "Blue Locker Ransomware: Analysis of Pakistan's Critical Infrastructure Attack",
+                excerpt: "On August 6, 2025, just days before Pakistan's Independence Day celebrations, the Blue Locker ransomware successfully infiltrated Pakistan Petroleum Limited (PPL), the nation's second-largest oil company.",
+                date: "2025-08-31",
+                tags: ["threat-intelligence", "critical-infrastructure"],
+                readTime: "6 min read",
+                url: "https://medium.com/@roadlesstrodden-Little-Star/blue-locker-ransomware-analysis-of-pakistans-critical-infrastructure-attack-b44f70cf36c2"
+            },
+            {
+                title: "My Accidental Journey into Cryptography: How I Invented My Own Cipher Without Knowing It",
+                excerpt: "I had a problem that many teenagers face: I wanted to write down my personal thoughts and feelings, but I also wanted to keep them completely private. Hiding a diary felt risky — hidden things have a way of being found. Keeping everything in my head wasn’t working either; I needed the clarity that comes from putting thoughts into words on paper.",
+                date: "2025-08-18",
+                tags: ["other", "cryptography"],
+                readTime: "3 min read",
+                url: "https://medium.com/roadlesstrodden/my-accidental-journey-into-cryptography-how-i-invented-my-own-cipher-without-knowing-it-69ded1b34715"
+            }
+        ];
+
+        // Configuration object
+        const config = {
+            mediumProfile: "https://medium.com/@roadlesstrodden-Little-Star",
+            github: "https://github.com/roadlesstrodden007-minda",
+            discord: "https://discord.gg/EGcjn23XFt"
+        };
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        // Fix for date timezone issues
+        function formatDate(dateString) {
+            // Handle both formats: "YYYY-MM-DD" and "Month DD, YYYY"
+            if (dateString.includes('-')) {
+                const [year, month, day] = dateString.split('-');
+                const date = new Date(year, month - 1, day); // month is 0-indexed
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            } else {
+                // Already in readable format
+                return dateString;
+            }
+        }
+
+        function renderBlogs(blogs) {
+            const blogGrid = document.getElementById('blogGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (blogs.length === 0) {
+                blogGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            blogGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+            
+            blogGrid.innerHTML = blogs.map(blog => `
+                <div class="blog-card">
+                    <div class="blog-meta">
+                        <span class="blog-date">${formatDate(blog.date)}</span>
+                        <span>${blog.readTime}</span>
+                    </div>
+                    <h3>${blog.title}</h3>
+                    <p>${blog.excerpt}</p>
+                    <div class="blog-tags">
+                        ${blog.tags.map(tag => `<span class="blog-tag">${tag}</span>`).join('')}
+                    </div>
+                    <a href="${blog.url}" target="_blank" class="read-more">Read on Medium</a>
+                </div>
+            `).join('');
+        }
+
+        function filterBlogs() {
+            let filteredBlogs = blogData;
+            
+            // Apply tag filter
+            if (currentFilter !== 'all') {
+                filteredBlogs = filteredBlogs.filter(blog => 
+                    blog.tags.some(tag => tag.toLowerCase().includes(currentFilter.toLowerCase()))
+                );
+            }
+            
+            // Apply search filter
+            if (currentSearch) {
+                filteredBlogs = filteredBlogs.filter(blog => 
+                    blog.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    blog.excerpt.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    blog.tags.some(tag => tag.toLowerCase().includes(currentSearch.toLowerCase()))
+                );
+            }
+            
+            renderBlogs(filteredBlogs);
+        }
+
+        // Initialize the page
+        function init() {
+            // Set up social links
+            document.getElementById('mediumProfile').href = config.mediumProfile;
+            document.getElementById('githubLink').href = config.github;
+            document.getElementById('discordLink').href = config.discord;
+
+            // Render initial blogs
+            renderBlogs(blogData);
+
+            // Set up event listeners
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                filterBlogs();
+            });
+
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.addEventListener('click', (e) => {
+                    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentFilter = e.target.dataset.tag;
+                    filterBlogs();
+                });
+            });
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
